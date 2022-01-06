@@ -7,10 +7,10 @@ SRC=$@
 
 case $MAIN_EXT in
   cc | cpp)
-    /usr/bin/clang++ -o $EXE_NAME -std=c++17 -Wall $SRC
+    /usr/local/bin/g++-11 -o $EXE_NAME -std=c++17 -Wall $SRC
     ;;
   c)
-    /usr/bin/clang -o $EXE_NAME -std=c17 -Wall $SRC
+    /usr/local/bin/gcc-11 -o $EXE_NAME -std=c17 -Wall $SRC
     ;;
   *)
     echo "Support for .$MAIN_EXT source code has not been implemented yet."
