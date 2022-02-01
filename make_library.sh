@@ -1,12 +1,21 @@
 #!/usr/local/bin/bash
-LIB="$HOME/local/libraries/$1"
+LIB="$1"
 shift
 SRC=$@
 OBJ=()
 
+TEMP=$(basename -- "$1")
+EXT="${TEMP##*.}"
+
+if [ "$EXT" == "cc" ]; then
+  EXT="cpp"
+fi
+
+LIB="$HOME/local/libraries/$EXT/$LIB"
+
 if [ -e "$LIB" ]; then
     echo "ERROR: $LIB already exists."
-    exit
+    exit 1
 fi
 
 function cleanup {
@@ -19,8 +28,8 @@ function cleanup {
 for src in $SRC; do
   echo "Compiling $src"
   obj=${src%.*}.o
-  $HOME/bin/compile.sh $obj $src -c &> /dev/null || \
-    (echo "ERROR: Compilation failed."; cleanup ${OBJ[*]}; exit)
+  $HOME/bin/compile.sh $obj $src -c &> /dev/null ||
+    (echo "ERROR: Compilation failed."; cleanup ${OBJ[*]}; exit 2)
   OBJ+=($obj)
 done
 
@@ -29,3 +38,4 @@ echo "Creating archive at $LIB"
   echo "ERROR: Failed creating archive."
 
 cleanup ${OBJ[*]}
+exit 0
