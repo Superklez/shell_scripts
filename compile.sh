@@ -7,11 +7,11 @@ SRC=$@
 
 case $MAIN_EXT in
   cc | cpp)
-    /usr/local/bin/g++-12 -o $EXE_NAME -std=c++17 -Wall \
+    /usr/bin/clang++ -o $EXE_NAME -std=c++17 -Wall \
     -I$HOME/local/include/ $SRC -L$HOME/local/library/
     ;;
   c)
-    /usr/local/bin/gcc-12 -o $EXE_NAME -std=c90 -Wall \
+    /usr/bin/clang -o $EXE_NAME -std=c90 -Wall \
     -I$HOME/local/include/ $SRC -L$HOME/local/library/
     ;;
   *)
